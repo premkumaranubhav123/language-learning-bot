@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: #e0f2e0;
+            color: #333;
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .chatbox {
+            width: 600px; /* Increased width */
+            max-width: 95%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 92vh; /* Fixed height */
+        }
+
+        .chat-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chat-header h2 {
+            font-size: 28px;
+            color: #2E7D32;
+            margin: 0;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-image {
+            width: 100%;
+            height: 200px;
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRLu2auVZDqfnpyfUbsXGDTU1QfxhwXHb2HQ&s');
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .input-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], select, button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 12px;
+            font-size: 16px;
+            border: 1px solid #81C784;
+            transition: all 0.3s ease;
+        }
+
+        button {
+            background-color: #2E7D32;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .chat-area {
+            flex: 1;
+            overflow-y: auto; /* Enable vertical scrolling */
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+        }
+
+        .message {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            max-width: 90%;
+        }
+
+        .message-user {
+            align-self: flex-end;
+            background-color: #2E7D32;
+            color: white;
+        }
+
+        .message-bot {
+            align-self: flex-start;
+            background-color: #f1f1f1;
+            color: #333;
+        }
+
+        /* Scrollbar styling for webkit browsers */
+        .chat-area::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-area::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .chat-area::-webkit-scrollbar-thumb {
+            background: #2E7D32;
+            border-radius: 4px;
+        }
+    </style>
+    <title>Language Learning Bot</title>
+</head>
+<body>
+
+<div class="chatbox">
+    <div class="header-image"></div>
+    <div class="chat-header">
+        <h2 style="text-align: center;">Language Learning Bot</h2>
+    </div>
+
+    <form action="/translate" method="post" class="input-area">
+        <input type="text" name="input_text" id="input_text" placeholder="Enter text to translate" required>
+        <select name="dest_lang" required>
+            <option value="" disabled selected>Select language</option>
+            <option value="Spanish">Spanish</option>
+            <option value="French">French</option>
+            <option value="Japanese">Japanese</option>
+            <option value="Hindi">Hindi</option>
+        </select>
+        <button type="submit">Translate</button>
+    </form>
+
+    <div class="chat-area">
+        {% for message in message_history|reverse %}
+            <div class="message message-user">
+                <span>User:</span> {{ message.input_text }}
+            </div>
+            <div class="message message-user">
+                <span>Language:</span> {{ message.dest_lang }}
+            </div>
+            <div class="message message-bot">
+                <span>Bot:</span> {{ message.translated_text }}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>

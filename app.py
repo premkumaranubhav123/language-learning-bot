@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from googletrans import Translator
+import os
 
 app = Flask(__name__)
 
@@ -39,4 +40,5 @@ def translate():
             return render_template('base.html', error_message=error_message, message_history=message_history)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))  # Use PORT from environment, default to 5000
+    app.run(debug=True, host='0.0.0.0', port=port)
